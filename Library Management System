@@ -1,0 +1,147 @@
+#include <iostream>
+#include <vector>
+#include <iomanip>
+
+using namespace std;
+
+// Structure to represent a book
+struct Book {
+    string title;
+    string author;
+    int quantity;
+
+    // Constructor to initialize book details
+    Book(const string& t, const string& a, int q) : title(t), author(a), quantity(q) {}
+};
+
+// Function to display the library catalog
+void displayCatalog(const vector<Book>& catalog) {
+    cout << setw(30) << left << "Title" << setw(20) << left << "Author" << setw(10) << left << "Quantity" << endl;
+    cout << setfill('-') << setw(60) << "" << setfill(' ') << endl;
+
+    for (const Book& book : catalog) {
+        cout << setw(30) << left << book.title << setw(20) << left << book.author << setw(10) << left << book.quantity << endl;
+    }
+}
+
+// Function to add a book to the library catalog
+void addBook(vector<Book>& catalog, const string& title, const string& author, int quantity) {
+    // Check if the book already exists in the catalog
+    for (Book& book : catalog) {
+        if (book.title == title && book.author == author) {
+            book.quantity += quantity; // Increment quantity if the book exists
+            return;
+        }
+    }
+
+    // If the book does not exist, add it to the catalog
+    catalog.push_back(Book(title, author, quantity));
+}
+
+// Function to remove a book from the library catalog
+void removeBook(vector<Book>& catalog, const string& title, const string& author, int quantity) {
+    for (auto it = catalog.begin(); it != catalog.end(); ++it) {
+        if (it->title == title && it->author == author) {
+            if (it->quantity >= quantity) {
+                it->quantity -= quantity;
+
+                // Remove the book entry if quantity becomes zero
+                if (it->quantity == 0) {
+                    catalog.erase(it);
+                }
+                return;
+            } else {
+                cout << "Error: Not enough quantity available to remove." << endl;
+                return;
+            }
+        }
+    }
+
+    cout << "Error: Book not found in the catalog." << endl;
+}
+
+// Function to check the availability of a book
+void checkAvailability(const vector<Book>& catalog, const string& title, const string& author) {
+    for (const Book& book : catalog) {
+        if (book.title == title && book.author == author) {
+            cout << "Book is available. Quantity: " << book.quantity << endl;
+            return;
+        }
+    }
+
+    cout << "Book is not available in the catalog." << endl;
+}
+
+int main() {
+    vector<Book> catalog; // Library catalog
+
+    while (true) {
+        cout << "\nLibrary Management System\n";
+        cout << "1. Display Catalog\n";
+        cout << "2. Add Book\n";
+        cout << "3. Remove Book\n";
+        cout << "4. Check Availability\n";
+        cout << "5. Exit\n";
+        cout << "Enter your choice: ";
+
+        int choice;
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                displayCatalog(catalog);
+                break;
+
+            case 2: {
+                string title, author;
+                int quantity;
+                cout << "Enter book details:\n";
+                cout << "Title: ";
+                cin.ignore(); // Ignore newline character from previous input
+                getline(cin, title);
+                cout << "Author: ";
+                getline(cin, author);
+                cout << "Quantity: ";
+                cin >> quantity;
+                addBook(catalog, title, author, quantity);
+                break;
+            }
+
+            case 3: {
+                string title, author;
+                int quantity;
+                cout << "Enter book details:\n";
+                cout << "Title: ";
+                cin.ignore(); // Ignore newline character from previous input
+                getline(cin, title);
+                cout << "Author: ";
+                getline(cin, author);
+                cout << "Quantity to remove: ";
+                cin >> quantity;
+                removeBook(catalog, title, author, quantity);
+                break;
+            }
+
+            case 4: {
+                string title, author;
+                cout << "Enter book details:\n";
+                cout << "Title: ";
+                cin.ignore(); // Ignore newline character from previous input
+                getline(cin, title);
+                cout << "Author: ";
+                getline(cin, author);
+                checkAvailability(catalog, title, author);
+                break;
+            }
+
+            case 5:
+                cout << "Exiting program. Thank you!\n";
+                return 0;
+
+            default:
+                cout << "Invalid choice. Please try again.\n";
+        }
+    }
+
+    return 0;
+}
