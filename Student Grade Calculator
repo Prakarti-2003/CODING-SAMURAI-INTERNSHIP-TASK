@@ -1,0 +1,77 @@
+#include <iostream>
+#include <iomanip>
+
+using namespace std;
+
+// Function to calculate the overall grade
+double calculateGrade(double assignmentScore, double quizScore, double examScore,
+                      double assignmentWeight, double quizWeight, double examWeight) {
+    return (assignmentScore * assignmentWeight + quizScore * quizWeight + examScore * examWeight);
+}
+
+// Function to determine letter grade based on the overall grade
+char determineLetterGrade(double overallGrade) {
+    if (overallGrade >= 90) {
+        return 'A';
+    } else if (overallGrade >= 80) {
+        return 'B';
+    } else if (overallGrade >= 70) {
+        return 'C';
+    } else if (overallGrade >= 60) {
+        return 'D';
+    } else {
+        return 'F';
+    }
+}
+
+int main() {
+    // Variables to store user input
+    string studentName;
+    double assignmentScore, quizScore, examScore;
+    double assignmentWeight, quizWeight, examWeight;
+
+    // Get user input for student information
+    cout << "Enter student name: ";
+    getline(cin, studentName);
+
+    // Get user input for weights
+    cout << "Enter weightage for assignments (in percentage): ";
+    cin >> assignmentWeight;
+
+    cout << "Enter weightage for quizzes (in percentage): ";
+    cin >> quizWeight;
+
+    cout << "Enter weightage for exams (in percentage): ";
+    cin >> examWeight;
+
+    // Validate weightage inputs
+    if (assignmentWeight + quizWeight + examWeight != 100) {
+        cout << "Error: The total weightage should be 100%. Exiting program." << endl;
+        return 1;
+    }
+
+    // Get user input for scores
+    cout << "Enter student's assignment score: ";
+    cin >> assignmentScore;
+
+    cout << "Enter student's quiz score: ";
+    cin >> quizScore;
+
+    cout << "Enter student's exam score: ";
+    cin >> examScore;
+
+    // Calculate overall grade
+    double overallGrade = calculateGrade(assignmentScore, quizScore, examScore,
+                                        assignmentWeight / 100, quizWeight / 100, examWeight / 100);
+
+    // Determine letter grade
+    char letterGrade = determineLetterGrade(overallGrade);
+
+    // Display results
+    cout << fixed << setprecision(2);
+    cout << "\nStudent Name: " << studentName << endl;
+    cout << "Overall Grade: " << overallGrade << "%" << endl;
+    cout << "Letter Grade: " << letterGrade << endl;
+
+    return 0;
+}
