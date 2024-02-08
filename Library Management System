@@ -40,6 +40,8 @@ void addBook(vector<Book>& catalog, const string& title, const string& author, i
 
 // Function to remove a book from the library catalog
 void removeBook(vector<Book>& catalog, const string& title, const string& author, int quantity) {
+    cin.ignore(); // Ignore newline character before using getline
+
     for (auto it = catalog.begin(); it != catalog.end(); ++it) {
         if (it->title == title && it->author == author) {
             if (it->quantity >= quantity) {
@@ -62,6 +64,8 @@ void removeBook(vector<Book>& catalog, const string& title, const string& author
 
 // Function to check the availability of a book
 void checkAvailability(const vector<Book>& catalog, const string& title, const string& author) {
+    cin.ignore(); // Ignore newline character before using getline
+
     for (const Book& book : catalog) {
         if (book.title == title && book.author == author) {
             cout << "Book is available. Quantity: " << book.quantity << endl;
@@ -74,6 +78,16 @@ void checkAvailability(const vector<Book>& catalog, const string& title, const s
 
 int main() {
     vector<Book> catalog; // Library catalog
+
+    // Adding more initial books to the catalog
+    catalog.push_back(Book("The Catcher in the Rye", "J.D. Salinger", 5));
+    catalog.push_back(Book("To Kill a Mockingbird", "Harper Lee", 3));
+    catalog.push_back(Book("1984", "George Orwell", 8));
+    catalog.push_back(Book("The Great Gatsby", "F. Scott Fitzgerald", 6));
+    catalog.push_back(Book("Harry Potter and the Sorcerer's Stone", "J.K. Rowling", 10));
+    catalog.push_back(Book("The Hobbit", "J.R.R. Tolkien", 7));
+    catalog.push_back(Book("The Da Vinci Code", "Dan Brown", 4));
+    catalog.push_back(Book("The Hunger Games", "Suzanne Collins", 6));
 
     while (true) {
         cout << "\nLibrary Management System\n";
@@ -145,3 +159,5 @@ int main() {
 
     return 0;
 }
+
+
